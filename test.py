@@ -4,8 +4,6 @@ import sqlite3
 app = Flask(__name__)
 DATABASE = 'msgapi.db'
 
-if __name__ == '__main__':
-    app.run(debug=True)
 
 
 def get_db():
@@ -47,3 +45,8 @@ def get_inbox(recipient):
         messages = c.fetchall()
         c.close()
     return jsonify([{'sender': message[0], 'message': message[1]} for message in messages])
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+

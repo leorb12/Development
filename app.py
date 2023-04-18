@@ -4,8 +4,6 @@ import sqlite3
 
 app = Flask(__name__)
 
-if __name__ == '__main__':
-    app.run(debug=True)
 
 
 @app.route('/send', methods=['POST'])
@@ -25,7 +23,6 @@ def send_message():
         conn.close()
 
         return jsonify({'message': 'Message sent successfully!'}), 201
-
     except sqlite3.Error as e:
         return jsonify({'error': str(e)}), 500
 
@@ -42,6 +39,20 @@ def get_inbox(recipient):
         conn.close()
 
         return jsonify([{'sender': message[0], 'message': message[1]} for message in messages]), 200
-
     except sqlite3.Error as e:
         return jsonify({'error': str(e)}), 500
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
+
+
+
+
+
+
+
+
+
