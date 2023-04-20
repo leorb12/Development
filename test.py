@@ -1,9 +1,14 @@
 from flask import Flask, request, jsonify, g
 import sqlite3
+from flask_login import LoginManager
+
 
 app = Flask(__name__)
 DATABASE = 'msgapi.db'
 
+
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 
 def get_db():
