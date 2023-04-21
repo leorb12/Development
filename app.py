@@ -15,7 +15,7 @@ def get_db():
 def register_user():
     db = get_db()
     cur = db.cursor()
-    cur.execute('INSERT ')
+    cur.execute('INSERT INTO Users(user_id, name, lastname, email, password) VALUES ()')
 
 
 
