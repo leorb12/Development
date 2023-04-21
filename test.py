@@ -1,28 +1,36 @@
-from flask import Flask, request, jsonify, g
+from flask import Flask, request, jsonify
 import sqlite3
-from flask_login import LoginManager
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'skyfall'
 DATABASE = 'msgapi.db'
 
 
-login_manager = LoginManager()
-login_manager.init_app(app)
 
-
+#CONECTION SQLITE3
 def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-    return db
+    conn = sqlite3.connect('msgapi.db')
+    return conn
 
 
-@app.teardown_appcontext
-def close_db(error):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+@app.route('/all_messages', methods=['GET'])
+def all_messages():
+    db = get_db()
+    cur = db.cursor()
+    cur.execute('SELECT * FROM Messages;')
+    messages = cur.fetchall()
+    cur.close()
+    return messages
+
+
+
+
+
+
+
+
+
 
 
 @app.route('/send', methods=['POST'])
@@ -54,4 +62,16 @@ def get_inbox(recipient):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+
+
+
+
+
+
+
+
+
 
