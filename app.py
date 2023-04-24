@@ -35,6 +35,7 @@ def profile(user_id):
     return profile_info
 
 
+#SEND MESSAGE
 @app.route('/send_message', methods=['POST'])
 def send_message():
     data = request.get_json()
