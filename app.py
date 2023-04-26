@@ -19,6 +19,7 @@ def register_user():
     cur.execute('INSERT INTO Users(name, lastname, email, password) VALUES (?, ?, ?, ?)',
                 (data['name'], data['lastname'], data['email'], data['password']))
     db.commit()
+    cur.close()
     db.close()
     response = {'message': "Registered"}
     return jsonify(response)
@@ -32,6 +33,7 @@ def profile(user_id):
     cur.execute('SELECT * FROM Users WHERE user_id = ?', (user_id,))
     profile_info = cur.fetchall()
     cur.close()
+    db.close()
     return profile_info
 
 
@@ -49,7 +51,20 @@ def send_message():
                   (sender_id, recipient_id, content))
         db.commit()
         c.close()
+        db.close()
         return {'Message': 'Message sent!!'}
+
+
+#CHECK INBOX MESSAGES
+@app.route('/inbox/<recipient_id>')
+def check_inbox(recipient_id):
+    db = get_db()
+    cur = db.cursor()
+    cur.execute('SELECT content FROM Messages WHERE recipient_id == ?', (recipient_id,))
+    message = cur.fetchall()
+    cur.close()
+    db.close()
+    return message
 
 
 #RUN FLASK APP
