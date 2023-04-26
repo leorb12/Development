@@ -101,6 +101,13 @@ def check_inbox(recipient_id):
         return message
 
 
+@app.route('/find_message/<recipient_id')
+def find_message(recipient_id):
+    db = get_db()
+    db.cursor()
+    db.execute('SELECT content FROM Messages WHERE recipient_id == ?', (recipient_id,))
+
+
 #RUN FLASK APP
 if __name__ == '__main__':
     app.run(debug=True)
